@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz Application</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      background-color: #333;
+    }
+
+    
+    
+    #quiz-container {
+      color: white;
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+    }
+    
+    .question {
+      color: white;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    
+    .options {
+      color: white;
+      list-style-type: none;
+      padding: 0;
+    }
+    
+    .options li {
+      color: white;
+      margin-bottom: 10px;
+    }
+    
+    .result {
+      font-weight: bold;
+      color: white;
+      margin-top: 20px;
+    }
+    
+    #submit-btn {
+      display: block;
+      margin-top: 10px;
+      padding: 10px;
+      background-color: crimson;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div id="quiz-container">
+  <h1>Quiz Application</h1>
+  <div id="question-container" class="question"></div>
+  <ul id="options-container" class="options"></ul>
+  <div id="result" class="result"></div>
+  <button id="submit-btn" onclick="submitAnswer()">Submit Answer</button>
+</div>
+
+<script>
+  const quizData = [
+    {
+      question: "Berapa angka biner yang mennjukan salah?",
+      options: ["1", "2", "0", "-1"],
+      correctAnswer: "0"
+    },
+    {
+      question: "apa itu coding?",
+      options: ["Bahasa pemrograman", "coding adalah teks yg digunakan untuk membuat web", "menulis sekumpulan code sesuai aturan penulisan", "coding adalah sebagian dari pemrograman"],
+      correctAnswer: "menulis sekumpulan code sesuai aturan penulisan"
+    },
+    {
+      question: "Apa singkatan dari Javascript?",
+      options: ["JS", "JSX", "RJS", "PHP"],
+      correctAnswer: "JS"
+    },
+    {
+      question: "Bahasa pemrograman untuk web dev?",
+      options: ["Html,css,js", "python", "java", "css"],
+      correctAnswer: "Html,css,js"
+    },
+    {
+      question: "siapakah penemu bahasa html?",
+      options: ["GHR Von Koegniswad", "Roma irama", "Tim Berners Lee", "Rasmus lerdorf"],
+      correctAnswer: "Tim Berners Lee"
+    },
+    {
+      question: "bahasa pemrograman yang digunakan developer untuk membuat halaman web yang interaktif. Pernyataan tsb merupakan pengertian bahasa?",
+      options: ["java", "javascript", "css", "html"],
+      correctAnswer: "javascript"
+    },
+    {
+      question: "bahasa yang menggunakan tanda-tanda tertentu (tag) untuk menyatakan kode-kode yang harus ditafsirkan oleh browser agar halaman tersebut dapat ditampilkan secara benar. Pernyataan tsb merupakan pengertian bahasa?",
+      options: ["html", "css", "javascript", "php"],
+      correctAnswer: "html"
+    },
+    {
+      question: "apa yang dimaksud dengan website?",
+      options: ["website adalah sebuah server yang berbentuk sebuah halaman", "website adalah sebuah halaman informasi dalam bentu digital", "sebuah halaman yang dibuat ole programmer", "kumpulan dari halaman-halaman situs, yang biasanya terangkum dalam sebuah domain atau subdomain, yang tempatnya berada di dalam World Wide Web (WWW) di Internet."],
+      correctAnswer: "kumpulan dari halaman-halaman situs, yang biasanya terangkum dalam sebuah domain atau subdomain, yang tempatnya berada di dalam World Wide Web (WWW) di Internet."
+    },
+    {
+      question: "Kepanjangan PHP?",
+      options: ["Hypertext Preprocessor", "Panjang Halaman Perintah", "Pro hight processor", "Pro Hover post"],
+      correctAnswer: "Hypertext Preprocessor"
+    },
+    {
+      question: "Apakah singkatan dari internet of things?",
+      options: ["IoT", "IT", "OiT", "LOI"],
+      correctAnswer: "IoT"
+    }
+  ];
+
+  let currentQuestion = 0;
+  let score = 0;
+
+  function loadQuestion() {
+    const questionContainer = document.getElementById("question-container");
+    const optionsContainer = document.getElementById("options-container");
+    const resultContainer = document.getElementById("result");
+    const submitButton = document.getElementById("submit-btn");
+
+    questionContainer.textContent = quizData[currentQuestion].question;
+
+    optionsContainer.innerHTML = "";
+    quizData[currentQuestion].options.forEach((option, index) => {
+      const li = document.createElement("li");
+      li.innerHTML = `<input type="radio" name="option" value="${option}" id="option${index + 1}">
+                      <label for="option${index + 1}">${option}</label>`;
+      optionsContainer.appendChild(li);
+    });
+
+    resultContainer.textContent = "";
+    submitButton.style.display = "block";
+  }
+
+  function submitAnswer() {
+    const selectedOption = document.querySelector('input[name="option"]:checked');
+    const resultContainer = document.getElementById("result");
+    const submitButton = document.getElementById("submit-btn");
+
+    if (selectedOption) {
+      if (selectedOption.value === quizData[currentQuestion].correctAnswer) {
+        score++;
+      }
+
+      currentQuestion++;
+
+      if (currentQuestion < quizData.length) {
+        loadQuestion();
+      } else {
+        resultContainer.textContent = `Score kamu : ${score} dari ${quizData.length} soal`;
+        submitButton.style.display = "none";
+      }
+    } else {
+      resultContainer.textContent = "Please select an option.";
+    }
+  }
+
+  // Initial load
+  loadQuestion();
+</script>
+
+</body>
+</html>
